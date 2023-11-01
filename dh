@@ -1,0 +1,41 @@
+using UnityEngine;
+
+public class ObjectInstantiation : MonoBehaviour
+{
+    public GameObject[] objectsToInstantiate;
+    private int currentObjectIndex = 0;
+
+    void Start()
+    {
+        // Instantiate the first object
+        InstantiateObject();
+    }
+
+    void InstantiateObject()
+    {
+        if (currentObjectIndex < objectsToInstantiate.Length)
+        {
+            GameObject newObj = Instantiate(objectsToInstantiate[currentObjectIndex]);
+            currentObjectIndex++;
+
+            // Deactivate the newly instantiated object after 1 second
+            Invoke("DeactivateObject", 1f);
+        }
+    }
+
+    void DeactivateObject()
+    {
+        if (currentObjectIndex <= objectsToInstantiate.Length)
+        {
+            // Deactivate the current object
+            objectsToInstantiate[currentObjectIndex - 1].SetActive(false);
+
+            // Check if there are more objects to instantiate
+            if (currentObjectIndex < objectsToInstantiate.Length)
+            {
+                // Invoke the next instantiation
+                Invoke("InstantiateObject", 1f);
+            }
+        }
+    }
+}
