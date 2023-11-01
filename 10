@@ -1,0 +1,41 @@
+using UnityEngine;
+
+public class ObjectManager : MonoBehaviour
+{
+    public GameObject prefabToInstantiate;
+    public int numberOfObjectsToInstantiate = 3;
+
+    private int currentIndex = 0;
+
+    void Start()
+    {
+        // Start the instantiation process
+        InvokeRepeating("InstantiateAndDeactivate", 0f, 1f);
+    }
+
+    void InstantiateAndDeactivate()
+    {
+        if (currentIndex < numberOfObjectsToInstantiate)
+        {
+            // Instantiate a new game object
+            GameObject newObj = Instantiate(prefabToInstantiate, transform.position, Quaternion.identity);
+            currentIndex++;
+
+            // Deactivate the object after 1 second
+            Invoke("DeactivateObject", 1f, newObj);
+
+            // Optionally, you can set a parent for the instantiated objects if needed
+            newObj.transform.parent = transform;
+        }
+        else
+        {
+            // All objects have been instantiated and deactivated, so stop the repeating Invoke
+            CancelInvoke("InstantiateAndDeactivate");
+        }
+    }
+
+    void DeactivateObject(GameObject objToDeactivate)
+    {
+        objToDeactivate.SetActive(false);
+    }
+}
