@@ -1,0 +1,40 @@
+using UnityEngine;
+
+public class ObjectManager : MonoBehaviour
+{
+    public GameObject[] objectsToInstantiate;
+
+    private int currentIndex = 0;
+
+    private void Start()
+    {
+        // Instantiate the first object immediately
+        InstantiateNextObject();
+
+        // Start deactivating objects with a delay
+        InvokeRepeating("DeactivateNextObject", 1.0f, 1.0f);
+    }
+
+    private void InstantiateNextObject()
+    {
+        if (currentIndex < objectsToInstantiate.Length)
+        {
+            Instantiate(objectsToInstantiate[currentIndex], transform.position, Quaternion.identity);
+            currentIndex++;
+        }
+    }
+
+    private void DeactivateNextObject()
+    {
+        if (currentIndex <= 0)
+        {
+            // All objects deactivated
+            CancelInvoke("DeactivateNextObject");
+        }
+        else
+        {
+            currentIndex--;
+            objectsToInstantiate[currentIndex].SetActive(false);
+        }
+    }
+}
