@@ -1,0 +1,27 @@
+using UnityEngine;
+
+public class ObjectManager : MonoBehaviour
+{
+    public GameObject prefab; // Assign your prefab in the Inspector
+    private GameObject[] objects;
+    private int currentIndex = 0;
+
+    void Start()
+    {
+        objects = new GameObject[3];
+        InvokeRepeating("InstantiateAndDeactivate", 0f, 1f);
+    }
+
+    void InstantiateAndDeactivate()
+    {
+        if (currentIndex < objects.Length)
+        {
+            objects[currentIndex] = Instantiate(prefab, transform.position, Quaternion.identity);
+            currentIndex++;
+        }
+        else
+        {
+            CancelInvoke("InstantiateAndDeactivate");
+        }
+    }
+}
