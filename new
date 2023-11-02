@@ -1,24 +1,35 @@
 using UnityEngine;
 
-public class ObjectManager : MonoBehaviour
-{
-    public GameObject[] objectsToInstantiate;
+public class instantiateTen : MonoBehaviour {
+    public GameObject prefab; // Reference to the prefab you want to instantiate.
+    private GameObject object1, object2, object3; // Variables to store the instantiated objects.
+    private int deactivateStep = 0; // Variable to track the deactivation step.
 
-    void Start()
-    {
-        // Instantiate all objects
-        for (int i = 0; i < objectsToInstantiate.Length; i++)
-        {
-            Instantiate(objectsToInstantiate[i]);
-
-            // Use Invoke to deactivate the object after a delay
-            float delay = i * 1.0f; // Delay increases by 1 second for each object
-            Invoke("DeactivateObject", delay);
-        }
+    void Start () {
+        // Instantiate the first object.
+        object1 = Instantiate (prefab, transform.position, Quaternion.identity);
+        object2 = Instantiate (prefab, transform.position, Quaternion.identity);
+        object3 = Instantiate (prefab, transform.position, Quaternion.identity);
+        object1.SetActive (false);
+        InvokeRepeating ("DeactivateObject", 1f, 1f);
     }
 
-    void DeactivateObject()
-    {
-        // Deactivate the object here
+    void DeactivateObject () {
+        deactivateStep++;
+
+        switch (deactivateStep) {
+            case 1:
+            object1.SetActive (false);
+            break;
+            case 2:
+            object2.SetActive (false);
+            break;
+  
+            case 3:
+            object3.SetActive (false);
+            // Stop the InvokeRepeating once all objects are deactivated.
+            CancelInvoke ("DeactivateObject");
+            break;
+        }
     }
 }
