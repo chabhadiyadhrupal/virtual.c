@@ -1,0 +1,36 @@
+using UnityEngine;
+
+public class ObjectManager : MonoBehaviour
+{
+    public GameObject prefab; // Assign your prefab in the Inspector
+    private int currentIndex = 0;
+
+    void Start()
+    {
+        InvokeRepeating("InstantiateAndDeactivate", 0f, 1f);
+    }
+
+    void InstantiateAndDeactivate()
+    {
+        if (currentIndex < 3)
+        {
+            GameObject obj = Instantiate(prefab, transform.position, Quaternion.identity);
+            currentIndex++;
+
+            // Deactivate the object after 1 second
+            Invoke("DeactivateObject", 1f, obj);
+        }
+        else
+        {
+            CancelInvoke("InstantiateAndDeactivate");
+        }
+    }
+
+    void DeactivateObject(GameObject obj)
+    {
+        if (obj != null)
+        {
+            obj.SetActive(false);
+        }
+    }
+}
