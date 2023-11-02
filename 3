@@ -1,0 +1,26 @@
+using UnityEngine;
+
+public class ObjectInteraction : MonoBehaviour
+{
+    private void OnMouseDown()
+    {
+        // Get any component of the object (in this case, the Renderer component).
+        Renderer rendererComponent = GetComponent<Renderer>();
+
+        // Check if the component exists.
+        if (rendererComponent != null)
+        {
+            // Do something with the component, for example, change the object's color.
+            rendererComponent.material.color = Color.red;
+        }
+
+        // Destroy the object after 3 seconds using Invoke.
+        Invoke("DestroyObject", 3f);
+    }
+
+    // Method to destroy the object.
+    private void DestroyObject()
+    {
+        Destroy(gameObject);
+    }
+}
