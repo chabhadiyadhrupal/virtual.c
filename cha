@@ -1,0 +1,29 @@
+using UnityEngine;
+
+public class InstantiateMultiple : MonoBehaviour {
+    public GameObject prefab;
+    public int numberOfObjects = 10;
+    private GameObject[] objects;
+
+    private int deactivateStep = 0;
+
+    void Start() {
+        objects = new GameObject[numberOfObjects];
+
+        for (int i = 0; i < numberOfObjects; i++) {
+            objects[i] = Instantiate(prefab, transform.position, Quaternion.identity);
+            objects[i].SetActive(false);
+        }
+
+        InvokeRepeating("DeactivateObject", 1f, 1f);
+    }
+
+    void DeactivateObject() {
+        if (deactivateStep < numberOfObjects) {
+            objects[deactivateStep].SetActive(false);
+            deactivateStep++;
+        } else {
+            CancelInvoke("DeactivateObject");
+        }
+    }
+}
