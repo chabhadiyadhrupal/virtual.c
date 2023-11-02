@@ -1,0 +1,60 @@
+using UnityEngine;
+
+public class ObjectInstantiation : MonoBehaviour
+{
+    public GameObject prefab; // Reference to the prefab you want to instantiate.
+    private GameObject object1, object2, object3; // Variables to store the instantiated objects.
+    private int step = 0; // Variable to track the deactivation step.
+
+    void Start()
+    {
+        // Start the process by invoking the method to instantiate the first object.
+        Invoke("InstantiateObject1", 0f);
+    }
+
+    void InstantiateObject1()
+    {
+        // Instantiate the first object.
+        object1 = Instantiate(prefab, transform.position, Quaternion.identity);
+        // Deactivate the first object after 1 second.
+        Invoke("DeactivateObject1", 1f);
+    }
+
+    void DeactivateObject1()
+    {
+        // Deactivate the first object.
+        object1.SetActive(false);
+        // Invoke the method to instantiate the second object after a 1-second delay.
+        Invoke("InstantiateObject2", 1f);
+    }
+
+    void InstantiateObject2()
+    {
+        // Instantiate the second object.
+        object2 = Instantiate(prefab, transform.position, Quaternion.identity);
+        // Deactivate the second object after 1 second.
+        Invoke("DeactivateObject2", 1f);
+    }
+
+    void DeactivateObject2()
+    {
+        // Deactivate the second object.
+        object2.SetActive(false);
+        // Invoke the method to instantiate the third object after a 1-second delay.
+        Invoke("InstantiateObject3", 1f);
+    }
+
+    void InstantiateObject3()
+    {
+        // Instantiate the third object.
+        object3 = Instantiate(prefab, transform.position, Quaternion.identity);
+        // Deactivate the third object after 1 second.
+        Invoke("DeactivateObject3", 1f);
+    }
+
+    void DeactivateObject3()
+    {
+        // Deactivate the third object.
+        object3.SetActive(false);
+    }
+}
