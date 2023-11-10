@@ -1,0 +1,7 @@
+bool IsGround() {
+    Collider collider = GetComponent<Collider>();
+    if (collider != null) {
+        return Physics.Raycast(collider.bounds.center, Vector3.down, collider.bounds.extents.y + 0.1f);
+    }
+    return false;
+}
