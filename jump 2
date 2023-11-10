@@ -1,0 +1,25 @@
+using UnityEngine;
+
+public class JumpController : MonoBehaviour
+{
+    public float jumpForce = 10.0f;
+    private bool canJump = true;
+
+    private void Update()
+    {
+        if (canJump && Input.GetKeyDown(KeyCode.Space))
+        {
+            Rigidbody rb = GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+                canJump = false; // Prevent multiple jumps in one press
+            }
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        canJump = true; // Reset the ability to jump when touching the ground
+    }
+}
