@@ -1,0 +1,36 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+
+
+public class JUMPController : MonoBehaviour {
+    Rigidbody dk;
+    public float JumpForce=5;
+    public float GroundDistanhce = 0.5f;
+    bool canDoubleJump;
+	private void Start () {
+        dk = GetComponent<Rigidbody> ();
+
+	}
+    bool IsGround() {
+        return Physics.Raycast (transform.position, Vector3.down, GroundDistanhce);
+
+	}
+	private void Update () {
+		
+
+        if(Input.GetKeyDown(KeyCode.Space)) {
+            if(IsGround()) {
+                dk.velocity = Vector3.up * JumpForce;
+                canDoubleJump = true;
+
+			}
+            else if(canDoubleJump) {
+                dk.velocity = Vector3.up * JumpForce;
+                canDoubleJump = false;
+			}
+		}
+	}
+
+}
