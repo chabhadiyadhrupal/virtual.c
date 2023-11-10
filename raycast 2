@@ -1,0 +1,44 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class JUMPController : MonoBehaviour
+{
+    Rigidbody dk;
+    public float JumpForce = 5;
+    bool isGrounded;
+    bool canDoubleJump;
+
+    private void Start()
+    {
+        dk = GetComponent<Rigidbody>();
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        isGrounded = true;
+        canDoubleJump = true;
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        isGrounded = false;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (isGrounded)
+            {
+                dk.velocity = Vector3.up * JumpForce;
+                canDoubleJump = true;
+            }
+            else if (canDoubleJump)
+            {
+                dk.velocity = Vector3.up * JumpForce;
+                canDoubleJump = false;
+            }
+        }
+    }
+}
