@@ -1,0 +1,52 @@
+using UnityEngine;
+using UnityEngine.UI;
+
+public class PlayerScore : MonoBehaviour
+{
+    public Text scoreText;        // Reference to a UI Text component to display the score
+    public Text highScoreText;    // Reference to a UI Text component to display the high score
+
+    private int currentScore = 0;
+    private int highScore = 0;
+
+    void Start()
+    {
+        // Load the high score from PlayerPrefs when the game starts
+        highScore = PlayerPrefs.GetInt("HighScore", 0);
+        UpdateHighScoreText();
+    }
+
+    void Update()
+    {
+        // Update the score based on the player's Z position
+        int score = Mathf.RoundToInt(transform.position.z);
+
+        // Update the current score
+        UpdateScore(score);
+
+        // Check for a new high score
+        if (score > highScore)
+        {
+            // Update the high score and save it to PlayerPrefs
+            highScore = score;
+            PlayerPrefs.SetInt("HighScore", highScore);
+            PlayerPrefs.Save();
+
+            // Update the high score text
+            UpdateHighScoreText();
+        }
+    }
+
+    void UpdateScore(int score)
+    {
+        // Update the score in the UI Text component
+        scoreText.text = "Score: " + score.ToString();
+        currentScore = score;
+    }
+
+    void UpdateHighScoreText()
+    {
+        // Display the high score in the UI Text component
+        highScoreText.text = "High Score: " + highScore.ToString();
+    }
+}
