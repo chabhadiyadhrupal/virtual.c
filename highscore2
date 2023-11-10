@@ -1,0 +1,60 @@
+using UnityEngine;
+using UnityEngine.UI;
+
+public class ScoreManager : MonoBehaviour
+{
+    public Text scoreText;        // Reference to a UI Text component to display the score
+    public Text highScoreText;    // Reference to a UI Text component to display the high score
+    public Transform player;      // Reference to the player GameObject
+
+    private int currentScore = 0;
+    private int highScore = 0;
+    private float startPosition;
+
+    void Start()
+    {
+        // Load the high score from PlayerPrefs when the game starts
+        highScore = PlayerPrefs.GetInt("HighScore", 0);
+        UpdateHighScoreText();
+
+        // Record the player's starting position
+        startPosition = player.position.z;
+    }
+
+    void Update()
+    {
+        // Calculate the distance the player has moved forward
+        float distanceMoved = player.position.z - startPosition;
+
+        // Calculate the score based on distance (1 meter = 1 score)
+        int score = Mathf.RoundToInt(distanceMoved);
+
+        // Update the current score
+        UpdateScore(score);
+
+        // Check for a new high score
+        if (score > highScore)
+        {
+            // Update the high score and save it to PlayerPrefs
+            highScore = score;
+            PlayerPrefs.SetInt("HighScore", highScore);
+            PlayerPrefs.Save();
+
+            // Update the high score text
+            UpdateHighScoreText();
+        }
+    }
+
+    void UpdateScore(int score)
+    {
+        // Update the score in the UI Text component
+        scoreText.text = "Score: " + score.ToString();
+        currentScore = score;
+    }
+
+    void UpdateHighScoreText()
+    {
+        // Display the high score in the UI Text component
+        highScoreText.text = "High Score: " + highScore.ToString();
+    }
+}
