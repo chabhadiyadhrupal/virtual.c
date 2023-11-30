@@ -1,0 +1,23 @@
+void DeactivatePowerAndApplyKinetic () {
+    isPowerActive = false; // Power is no longer active
+
+    powerObject.SetActive (false); // Deactivate the power GameObject
+
+    Rigidbody[] obstacleRigidbodies = obstacles.GetComponentsInChildren<Rigidbody> ();
+
+    foreach (Rigidbody rb in obstacleRigidbodies) {
+        rb.isKinematic = false;
+    }
+
+    StartCoroutine(EnableMovementAfterDelay(5f));
+}
+
+IEnumerator EnableMovementAfterDelay(float delay) {
+    yield return new WaitForSeconds(delay);
+
+    movement.enabled = true;
+
+    Retry.SetActive(false);
+}
+
+// Rest of your code...
