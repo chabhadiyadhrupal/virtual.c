@@ -1,0 +1,35 @@
+using System.Collections;
+using TMPro;
+using UnityEngine;
+
+public class TriggerPower : MonoBehaviour {
+
+    public GameObject player;
+    public GameObject PowerObject;
+    public GameObject Obstacles;
+    bool isPowerActive = true;
+    void OnTriggerEnter (Collider Player) {
+        if (isPowerActive && Player.gameObject == PowerObject) {
+            DeactivatePowerAndApplyKinetic ();
+        }
+    }
+    void DeactivatePowerAndApplyKinetic () {
+        isPowerActive = false; 
+        PowerObject.SetActive (false); 
+        Collider[] obstaclecollider = Obstacles.GetComponentsInChildren<Collider> ();
+        foreach (Collider coll in obstaclecollider) {
+            coll.isTrigger = true;
+        }
+     StartCoroutine (ResetKinematicAndDestroyPower ());
+    }
+    IEnumerator ResetKinematicAndDestroyPower () {
+        yield return new WaitForSeconds (5f);
+   
+        Collider[] obstaclecollider = Obstacles.GetComponentsInChildren<Collider> ();
+        foreach(Collider coll in obstaclecollider) {
+           coll.isTrigger = false;
+		}
+
+        Destroy (PowerObject);
+    }
+}
